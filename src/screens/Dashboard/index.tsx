@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import { Alert } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import { CharacterCard } from '../../components/CharacterCard';
 import { HeaderTitle } from '../../components/HeaderTitle'
 import { TextInput } from '../../components/TextInput'
 
-import { ApiData, Results } from '../../DTOs/api-data';
+import IllustrationSvg from '../../assets/illustration.svg'
+
+import { Results } from '../../DTOs/api-data';
 import { 
   Container, 
   HeaderContainer,
   ContentContainer,
-  List
+  List,
+  InfoText,
+  BoldText
 } from './styles'
 
 export function Dashboard() {
-
   const [characters, setCharacters] = useState<Results[]>();
 
   useEffect(() => {
@@ -26,6 +29,11 @@ export function Dashboard() {
   return (
     <Container>
       <HeaderContainer>
+        <IllustrationSvg style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 100,
+        }}/>
         <HeaderTitle title={`The Rick\nand Morty\nApp`}/>
       </HeaderContainer>
       <ContentContainer>
@@ -46,6 +54,13 @@ export function Dashboard() {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
         />
+        <InfoText
+        onPress={() => {
+          Linking.openURL('https://rickandmortyapi.com/')
+        }}
+        >
+          Click here to visit the <BoldText>Rick and Morty API</BoldText> website
+        </InfoText>
       </ContentContainer> 
     </Container>
   )
