@@ -23,7 +23,7 @@ import {
 type ResultsInfo = Pick<Results, "image" | "name" | "status" | "species" | "origin" | "location">
 
 export function Dashboard() {
-  const [characters, setCharacters] = useState<ApiData>({
+  const [data, setData] = useState<ApiData>({
     info: {
       count: 0,
       pages: 0,
@@ -33,7 +33,8 @@ export function Dashboard() {
     results: []
   });
 
-  const [filterCharactersByName, setFilterCharactersByName] = useState<string | null>(null); 
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [filterCharactersByName, setFilterCharactersByName] = useState<string>("");
 
   const Item = ({
     image,
@@ -54,11 +55,11 @@ export function Dashboard() {
   )
 
   const characterListItem: ListRenderItem<any> = ({
-    item 
+    item
   }: ListRenderItemInfo<ResultsInfo>) => (
-    <Item 
+    <Item
       image={item.image}
-      name={item.name} 
+      name={item.name}
       status={item.status}
       species={item.species}
       origin={item.origin}
@@ -66,19 +67,48 @@ export function Dashboard() {
     />
   )
 
-  useEffect(() => {
-    if(filterCharactersByName) {
-      fetch(`https://rickandmortyapi.com/api/character/?name=${filterCharactersByName}`)
-        .then((response) => response.json())
-        .then((response) => setCharacters(response))
-        .catch(() => Alert.alert('Error', 'Error when trying to get API data'))
-    } else {
-      fetch('https://rickandmortyapi.com/api/character')
-        .then((response) => response.json())
-        .then((response) => setCharacters(response))
-        .catch(() => Alert.alert('Error', 'Error when trying to get API data'))
+  function fetchMoreData() {
+    if(data.info.next) {
+      setCurrentPage(currentPage + 1);
     }
-  }, [filterCharactersByName])
+  }
+
+  function getCharactersByPage() {
+    fetch(`https://rickandmortyapi.com/api/character/?page=${currentPage}`)
+      .then((response): Promise<ApiData> => response.json())
+      .then((response) => {
+        const updatedData = {
+          info: response.info,
+          results: [...data.results, ...response.results]
+        }
+        setData(updatedData)
+      })
+      .catch(() => Alert.alert('Error', 'Error when trying to get API data'))
+  }
+
+  function getCharactersByName() {
+    fetch(`https://rickandmortyapi.com/api/character/?name=${filterCharactersByName}`)
+      .then((response): Promise<ApiData> => response.json())
+      .then((response: ApiData) => {
+        const updatedData = {
+          info: response.info,
+          results: [...data.results, ...response.results]
+        }
+        setData(updatedData)
+      })
+      .catch(() => Alert.alert('Error', 'Error when trying to get API data'))
+  }
+
+  useEffect(() => {
+    getCharactersByPage()
+  }, [currentPage])
+
+  // useEffect(() => {
+  //   fetch(`https://rickandmortyapi.com/api/character/?name=${filterCharactersByName}`)
+  //     .then((response) => response.json())
+  //     .then((response) => setData(response))
+  //     .catch(() => Alert.alert('Error', 'Error when trying to get API data'))
+  // }, [filterCharactersByName])
 
   return (
     <Container>
@@ -93,14 +123,16 @@ export function Dashboard() {
         <HeaderTitle title={`The Rick\nand Morty\nApp`} />
       </HeaderContainer>
       <ContentContainer>
-        <TextInput 
+        <TextInput
           placeholder="Type a name for search"
           onChangeText={characterName => setFilterCharactersByName(characterName)}
         />
         <List
-          data={characters.results}
+          data={data.results}
           keyExtractor={(item: any) => item.id.toString()}
           renderItem={characterListItem}
+          onEndReachedThreshold={0.2}
+          onEndReached={fetchMoreData}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
         />
