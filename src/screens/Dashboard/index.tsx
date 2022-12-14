@@ -33,6 +33,8 @@ export function Dashboard() {
     results: []
   });
 
+  const [filterCharactersByName, setFilterCharactersByName] = useState<string | null>(null); 
+
   const Item = ({
     image,
     name,
@@ -63,13 +65,20 @@ export function Dashboard() {
       location={item.location}
     />
   )
-  
+
   useEffect(() => {
-    fetch('https://rickandmortyapi.com/api/character')
-      .then((response) => response.json())
-      .then((response) => setCharacters(response))
-      .catch(() => Alert.alert('Error', 'Error when trying to get API data'))
-  }, [])
+    if(filterCharactersByName) {
+      fetch(`https://rickandmortyapi.com/api/character/?name=${filterCharactersByName}`)
+        .then((response) => response.json())
+        .then((response) => setCharacters(response))
+        .catch(() => Alert.alert('Error', 'Error when trying to get API data'))
+    } else {
+      fetch('https://rickandmortyapi.com/api/character')
+        .then((response) => response.json())
+        .then((response) => setCharacters(response))
+        .catch(() => Alert.alert('Error', 'Error when trying to get API data'))
+    }
+  }, [filterCharactersByName])
 
   return (
     <Container>
@@ -84,7 +93,10 @@ export function Dashboard() {
         <HeaderTitle title={`The Rick\nand Morty\nApp`} />
       </HeaderContainer>
       <ContentContainer>
-        <TextInput placeholder="Type a name for search" />
+        <TextInput 
+          placeholder="Type a name for search"
+          onChangeText={characterName => setFilterCharactersByName(characterName)}
+        />
         <List
           data={characters.results}
           keyExtractor={(item: any) => item.id.toString()}

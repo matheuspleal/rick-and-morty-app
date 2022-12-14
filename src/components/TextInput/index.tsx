@@ -6,11 +6,14 @@ import {
   Input
  } from './styles'
 
-export function TextInput({ placeholder }: TextInputProps) {
+export function TextInput({ placeholder, onChangeText }: TextInputProps) {
   return (
     <Container>
       <Icon name="search"/>
-      <Input placeholder={placeholder}/>
+      <Input 
+        placeholder={placeholder}
+        onChangeText={onChangeText}
+      />
     </Container>
   )
 }
