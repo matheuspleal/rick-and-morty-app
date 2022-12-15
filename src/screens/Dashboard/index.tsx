@@ -23,7 +23,7 @@ import {
 type ResultsInfo = Pick<Results, "image" | "name" | "status" | "species" | "origin" | "location">
 
 export function Dashboard() {
-  const [data, setData] = useState<ApiData>({
+  const initialApiData = {
     info: {
       count: 0,
       pages: 0,
@@ -31,8 +31,9 @@ export function Dashboard() {
       prev: ""
     },
     results: []
-  });
+  }
 
+  const [data, setData] = useState<ApiData>(initialApiData);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [filterCharactersByName, setFilterCharactersByName] = useState<string>("");
 
@@ -77,9 +78,14 @@ export function Dashboard() {
     fetch(`https://rickandmortyapi.com/api/character/?page=${currentPage}`)
       .then((response): Promise<ApiData> => response.json())
       .then((response) => {
-        const updatedData = {
-          info: response.info,
-          results: [...data.results, ...response.results]
+        let updatedData
+        if(currentPage !== 1) {
+          updatedData = {
+            info: response.info,
+            results: [...data.results, ...response.results]
+          }
+        } else {
+          updatedData = response
         }
         setData(updatedData)
       })
@@ -90,25 +96,19 @@ export function Dashboard() {
     fetch(`https://rickandmortyapi.com/api/character/?name=${filterCharactersByName}`)
       .then((response): Promise<ApiData> => response.json())
       .then((response: ApiData) => {
-        const updatedData = {
-          info: response.info,
-          results: [...data.results, ...response.results]
-        }
-        setData(updatedData)
+        setData(response)
       })
       .catch(() => Alert.alert('Error', 'Error when trying to get API data'))
   }
 
   useEffect(() => {
-    getCharactersByPage()
-  }, [currentPage])
-
-  // useEffect(() => {
-  //   fetch(`https://rickandmortyapi.com/api/character/?name=${filterCharactersByName}`)
-  //     .then((response) => response.json())
-  //     .then((response) => setData(response))
-  //     .catch(() => Alert.alert('Error', 'Error when trying to get API data'))
-  // }, [filterCharactersByName])
+    if(!filterCharactersByName) {
+      getCharactersByPage()
+    } else {
+      setCurrentPage(1)
+      getCharactersByName()
+    }
+  }, [currentPage, filterCharactersByName])
 
   return (
     <Container>
