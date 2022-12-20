@@ -5,7 +5,7 @@ export const Container = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  height: ${RFValue(110)}px;
+  height: ${RFValue(100)}px;
   max-width: 100%;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.dark_500};
@@ -13,8 +13,8 @@ export const Container = styled.View`
 `;
 
 export const Image = styled.Image`
-  width: ${RFValue(110)}px;
-  height: ${RFValue(110)}px;
+  width: ${RFValue(100)}px;
+  height: ${RFValue(100)}px;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
 `;
@@ -22,11 +22,11 @@ export const Image = styled.Image`
 export const ContainerInfo = styled.View`
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: center;
   margin-left: ${RFValue(12)}px;
   padding: ${RFValue(12)}px 0;
   width: 100%;
-  height: ${RFValue(110)}px;
+  height: ${RFValue(100)}px;
 `;
 
 export const Name = styled.Text`

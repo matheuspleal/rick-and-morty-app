@@ -10,20 +10,20 @@ export interface Results {
   name: string,
   status: string,
   species: string,
-  type: string,
-  gender: string,
+  type?: string,
+  gender?: string,
   origin: {
     name: string,
-    url: string
+    url?: string
   },
   location: {
     name: string,
-    url: string
+    url?: string
   },
   image: string
-  episode: string[]
-  url: string
-  created: Date
+  episode?: string[]
+  url?: string
+  created?: Date
 }
 
 export interface ApiData {

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Alert, Linking, ListRenderItem, ListRenderItemInfo } from 'react-native';
-import { CharacterCard } from '../../components/CharacterCard';
+import { CharacterCard, CharacterCardProps } from '../../components/CharacterCard';
 import { HeaderTitle } from '../../components/HeaderTitle'
 import { TextInput } from '../../components/TextInput'
-
-import IllustrationSvg from '../../assets/illustration.svg'
 
 import {
   ApiData,
@@ -15,12 +13,11 @@ import {
   Container,
   HeaderContainer,
   ContentContainer,
-  List,
+  CharacterList,
   InfoText,
-  BoldText
+  BoldText,
+  IllustrationSvg
 } from './styles'
-
-type ResultsInfo = Pick<Results, "image" | "name" | "status" | "species" | "origin" | "location">
 
 export function Dashboard() {
   const initialApiData = {
@@ -30,35 +27,30 @@ export function Dashboard() {
       next: "",
       prev: ""
     },
-    results: []
+    results: [] as Results[]
   }
 
   const [data, setData] = useState<ApiData>(initialApiData);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [filterCharactersByName, setFilterCharactersByName] = useState<string>("");
 
-  const Item = ({
-    image,
-    name,
-    status,
-    species,
-    origin,
-    location
-  }: ResultsInfo) => (
+  const Item = ({ id, image, name, status, species, origin, location }: CharacterCardProps) => (
     <CharacterCard
+      id={id}
       image={image}
       name={name}
       status={status}
       species={species}
-      origin={origin.name}
-      location={location.name}
+      origin={origin}
+      location={location}
     />
   )
 
-  const characterListItem: ListRenderItem<any> = ({
+  const characterListItem: ListRenderItem<CharacterCardProps> = ({
     item
-  }: ListRenderItemInfo<ResultsInfo>) => (
+  }: ListRenderItemInfo<CharacterCardProps>) => (
     <Item
+      id={item.id}
       image={item.image}
       name={item.name}
       status={item.status}
@@ -113,13 +105,7 @@ export function Dashboard() {
   return (
     <Container>
       <HeaderContainer>
-        <IllustrationSvg
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 100,
-          }}
-        />
+        <IllustrationSvg/>
         <HeaderTitle title={`The Rick\nand Morty\nApp`} />
       </HeaderContainer>
       <ContentContainer>
@@ -127,14 +113,12 @@ export function Dashboard() {
           placeholder="Type a name for search"
           onChangeText={characterName => setFilterCharactersByName(characterName)}
         />
-        <List
+        <CharacterList
           data={data.results}
-          keyExtractor={(item: any) => item.id.toString()}
+          keyExtractor={(item: CharacterCardProps) => item.id.toString()}
           renderItem={characterListItem}
           onEndReachedThreshold={0.2}
           onEndReached={fetchMoreData}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
         />
         <InfoText
           onPress={() => {

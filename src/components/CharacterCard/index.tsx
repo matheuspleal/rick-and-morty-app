@@ -1,4 +1,5 @@
 import React from 'react'
+import { Results } from '../../DTOs/api-data'
 import { 
   Container,
   ContainerInfo,
@@ -10,23 +11,16 @@ import {
 
 } from './styles'
 
-interface Props {
-  image: string,
-  name: string,
-  status: string,
-  species: string,
-  origin: string,
-  location: string
-}
+export type CharacterCardProps = Results
 
 export function CharacterCard({
-  image, 
+  image,
   name,
   status,
   species,
   origin,
   location
-}: Props) {
+}: CharacterCardProps) {
   return (
     <Container>
       <Image source={{ 
@@ -36,9 +30,9 @@ export function CharacterCard({
         <Name>{name}</Name>
         <PrimaryInfo>{status} - {species}</PrimaryInfo>
         <SecondaryDescription>Origin:</SecondaryDescription>
-        <SecondaryInfo>{origin}</SecondaryInfo>
+        <SecondaryInfo>{origin.name}</SecondaryInfo>
         <SecondaryDescription>Location:</SecondaryDescription>
-        <SecondaryInfo>{location}</SecondaryInfo>
+        <SecondaryInfo>{location.name}</SecondaryInfo>
       </ContainerInfo>
     </Container>
   )

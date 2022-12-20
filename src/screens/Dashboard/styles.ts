@@ -1,5 +1,8 @@
 import styled from 'styled-components/native'
 import { RFValue } from 'react-native-responsive-fontsize'
+import illustrationSvg from '../../assets/illustration.svg'
+import { FlatList } from 'react-native';
+import { CharacterCardProps } from '../../components/CharacterCard';
 
 export const Container = styled.View`
   flex: 1;
@@ -22,10 +25,13 @@ export const ContentContainer = styled.View`
   background-color: ${({ theme }) => theme.colors.dark_900};
 `;
 
-export const List = styled.FlatList`
+export const CharacterList = (styled.FlatList.attrs({
+  showsHorizontalScrollIndicator: false,
+  showsVerticalScrollIndicator: false
+})`
   margin-top: ${RFValue(24)}px;
   border-radius: 8px;
-`;
+` as unknown) as typeof FlatList<CharacterCardProps>;
 
 export const InfoText = styled.Text`
   margin-top: ${RFValue(12)}px;
@@ -39,3 +45,11 @@ export const BoldText = styled.Text`
   font-size: ${RFValue(10)}px;
   color: ${({ theme }) => theme.colors.gray_500};
 `;
+
+export const IllustrationSvg = styled(illustrationSvg)`
+  position: absolute;
+  bottom: 0;
+  left: ${RFValue(100)}px;
+`
+
+
