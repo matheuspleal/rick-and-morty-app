@@ -67,7 +67,7 @@ export function Dashboard() {
     setFilterCharactersByName(characterName)
   }
 
-  const handleSearchCharacterByName = debounce(searchCharacterByName, 300);
+  const handleSearchCharacterByName = debounce(searchCharacterByName, 300)
 
   function handleOpenApiLink() {
     Linking.openURL('https://rickandmortyapi.com/')
@@ -123,7 +123,7 @@ export function Dashboard() {
       </HeaderContainer>
       <ContentContainer>
         <TextInput
-          placeholder='Type a name for search'
+          placeholder="Type a name for search"
           autoCorrect={false}
           autoFocus={false}
           onChangeText={handleSearchCharacterByName}
