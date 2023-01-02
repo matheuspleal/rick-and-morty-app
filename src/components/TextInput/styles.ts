@@ -1,7 +1,7 @@
 import styled from 'styled-components/native'
 import { Feather } from '@expo/vector-icons'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { TextInput, TextInputProps } from 'react-native';
+import { TextInputProps } from 'react-native';
 
 interface ContainerProps {
   isFocused: boolean
@@ -34,10 +34,6 @@ export const Icon = styled(Feather)<IconProps>`
   font-size: ${RFValue(24)}px;
   margin-right: ${RFValue(12)}px;
 `;
-
-// .attrs({
-//   placeholderTextColor: '#6D6E71'
-// })
 
 export const Input = styled.TextInput.attrs<InputProps>({
   placeholderTextColor: '#6D6E71'

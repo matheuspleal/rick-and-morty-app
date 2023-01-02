@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Results } from '../../DTOs/api-data'
 import { 
   Container,
@@ -8,7 +9,6 @@ import {
   PrimaryInfo,
   SecondaryDescription,
   SecondaryInfo,
-
 } from './styles'
 
 export type CharacterCardProps = Results

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import { debounce } from 'lodash'
 import { Alert, Linking, ListRenderItem, ListRenderItemInfo } from 'react-native'
+
 import { CharacterCard, CharacterCardProps } from '../../components/CharacterCard'
 import { HeaderTitle } from '../../components/HeaderTitle'
 import { TextInput } from '../../components/TextInput'
-
-import { debounce } from 'lodash'
 
 import {
   ApiData,

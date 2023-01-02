@@ -1,7 +1,8 @@
 import styled from 'styled-components/native'
-import { RFValue } from 'react-native-responsive-fontsize'
-import illustrationSvg from '../../assets/illustration.svg'
 import { FlatList } from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize'
+
+import illustrationSvg from '../../assets/illustration.svg'
 import { CharacterCardProps } from '../../components/CharacterCard';
 
 export const Container = styled.View`
