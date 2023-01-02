@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Linking, ListRenderItem, ListRenderItemInfo } from 'react-native';
-import { CharacterCard, CharacterCardProps } from '../../components/CharacterCard';
+import { Alert, Linking, ListRenderItem, ListRenderItemInfo } from 'react-native'
+import { CharacterCard, CharacterCardProps } from '../../components/CharacterCard'
 import { HeaderTitle } from '../../components/HeaderTitle'
 import { TextInput } from '../../components/TextInput'
 
@@ -24,15 +24,16 @@ export function Dashboard() {
     info: {
       count: 0,
       pages: 0,
-      next: "",
-      prev: ""
+      next: '',
+      prev: ''
     },
     results: [] as Results[]
   }
 
-  const [data, setData] = useState<ApiData>(initialApiData);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [filterCharactersByName, setFilterCharactersByName] = useState<string>("");
+  const [inputIsFocused, setInputIsFocused] = useState<boolean>(true)
+  const [data, setData] = useState<ApiData>(initialApiData)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [filterCharactersByName, setFilterCharactersByName] = useState<string>('')
 
   const Item = ({ id, image, name, status, species, origin, location }: CharacterCardProps) => (
     <CharacterCard
@@ -60,9 +61,21 @@ export function Dashboard() {
     />
   )
 
-  function fetchMoreData() {
+  function handleSetInputFocused(isFocused: boolean) {
+    setInputIsFocused(isFocused)
+  }
+
+  function handleSearchCharacterByName(characterName: string) {
+    setFilterCharactersByName(characterName)
+  }
+
+  function handleOpenApiLink() {
+    Linking.openURL('https://rickandmortyapi.com/')
+  }
+
+  function handleFetchMoreData() {
     if(data.info.next) {
-      setCurrentPage(currentPage + 1);
+      setCurrentPage(currentPage + 1)
     }
   }
 
@@ -110,20 +123,21 @@ export function Dashboard() {
       </HeaderContainer>
       <ContentContainer>
         <TextInput
-          placeholder="Type a name for search"
-          onChangeText={characterName => setFilterCharactersByName(characterName)}
+          placeholder='Type a name for search'
+          onChangeText={handleSearchCharacterByName}
+          onFocus={() => handleSetInputFocused(true)}
+          onBlur={() => handleSetInputFocused(false)}
+          isFocused={inputIsFocused}
         />
         <CharacterList
           data={data.results}
           keyExtractor={(item: CharacterCardProps) => item.id.toString()}
           renderItem={characterListItem}
           onEndReachedThreshold={0.2}
-          onEndReached={fetchMoreData}
+          onEndReached={handleFetchMoreData}
         />
         <InfoText
-          onPress={() => {
-            Linking.openURL('https://rickandmortyapi.com/')
-          }}
+          onPress={handleOpenApiLink}
         >
           Click here to visit the <BoldText>Rick and Morty API</BoldText> website
         </InfoText>

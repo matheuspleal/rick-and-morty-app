@@ -6,13 +6,23 @@ import {
   Input
  } from './styles'
 
-export function TextInput({ placeholder, onChangeText }: TextInputProps) {
+interface Props extends TextInputProps {
+ isFocused: boolean
+}
+
+export function TextInput({ placeholder, onChangeText, isFocused }: Props) {
   return (
-    <Container>
-      <Icon name="search"/>
+    <Container
+      isFocused={isFocused}  
+    >
+      <Icon 
+        name="search"
+        isFocused={isFocused}
+      />
       <Input 
         placeholder={placeholder}
         onChangeText={onChangeText}
+        isFocused={isFocused}
       />
     </Container>
   )
