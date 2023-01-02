@@ -10,7 +10,7 @@ interface Props extends TextInputProps {
  isFocused: boolean
 }
 
-export function TextInput({ placeholder, onChangeText, isFocused }: Props) {
+export function TextInput({ isFocused, ...rest}: Props) {
   return (
     <Container
       isFocused={isFocused}  
@@ -19,10 +19,9 @@ export function TextInput({ placeholder, onChangeText, isFocused }: Props) {
         name="search"
         isFocused={isFocused}
       />
-      <Input 
-        placeholder={placeholder}
-        onChangeText={onChangeText}
+      <Input
         isFocused={isFocused}
+        {...rest}
       />
     </Container>
   )

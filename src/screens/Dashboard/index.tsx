@@ -4,6 +4,8 @@ import { CharacterCard, CharacterCardProps } from '../../components/CharacterCar
 import { HeaderTitle } from '../../components/HeaderTitle'
 import { TextInput } from '../../components/TextInput'
 
+import { debounce } from 'lodash'
+
 import {
   ApiData,
   Results
@@ -30,7 +32,7 @@ export function Dashboard() {
     results: [] as Results[]
   }
 
-  const [inputIsFocused, setInputIsFocused] = useState<boolean>(true)
+  const [inputIsFocused, setInputIsFocused] = useState<boolean>(false)
   const [data, setData] = useState<ApiData>(initialApiData)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [filterCharactersByName, setFilterCharactersByName] = useState<string>('')
@@ -61,13 +63,11 @@ export function Dashboard() {
     />
   )
 
-  function handleSetInputFocused(isFocused: boolean) {
-    setInputIsFocused(isFocused)
-  }
-
-  function handleSearchCharacterByName(characterName: string) {
+  function searchCharacterByName(characterName: string) {
     setFilterCharactersByName(characterName)
   }
+
+  const handleSearchCharacterByName = debounce(searchCharacterByName, 300);
 
   function handleOpenApiLink() {
     Linking.openURL('https://rickandmortyapi.com/')
@@ -99,11 +99,11 @@ export function Dashboard() {
 
   function getCharactersByName() {
     fetch(`https://rickandmortyapi.com/api/character/?name=${filterCharactersByName}`)
-      .then((response): Promise<ApiData> => response.json())
-      .then((response: ApiData) => {
-        setData(response)
-      })
-      .catch(() => Alert.alert('Error', 'Error when trying to get API data'))
+    .then((response): Promise<ApiData> => response.json())
+    .then((response: ApiData) => {
+      setData(response)
+    })
+    .catch(() => Alert.alert('Error', 'Error when trying to get API data'))
   }
 
   useEffect(() => {
@@ -124,9 +124,11 @@ export function Dashboard() {
       <ContentContainer>
         <TextInput
           placeholder='Type a name for search'
+          autoCorrect={false}
+          autoFocus={false}
           onChangeText={handleSearchCharacterByName}
-          onFocus={() => handleSetInputFocused(true)}
-          onBlur={() => handleSetInputFocused(false)}
+          onFocus={() => setInputIsFocused(true)}
+          onBlur={() => setInputIsFocused(false)}
           isFocused={inputIsFocused}
         />
         <CharacterList
