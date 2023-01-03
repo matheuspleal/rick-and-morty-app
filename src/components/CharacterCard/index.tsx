@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { Results } from '../../DTOs/api-data'
+import { MainInfo } from '../MainInfo'
 import { 
   Container,
   ContainerInfo,
   Image,
   Name,
-  PrimaryInfo,
   SecondaryDescription,
   SecondaryInfo,
 } from './styles'
@@ -28,7 +28,7 @@ export function CharacterCard({
       }}/>
       <ContainerInfo>
         <Name>{name}</Name>
-        <PrimaryInfo>{status} - {species}</PrimaryInfo>
+        <MainInfo status={status} species={species}/>
         <SecondaryDescription>Origin:</SecondaryDescription>
         <SecondaryInfo>{origin.name}</SecondaryInfo>
         <SecondaryDescription>Location:</SecondaryDescription>

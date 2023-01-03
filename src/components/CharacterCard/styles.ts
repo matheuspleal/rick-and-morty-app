@@ -34,12 +34,6 @@ export const Name = styled.Text`
   color: ${({ theme }) => theme.colors.gray_500};
 `;
 
-export const PrimaryInfo = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.medium};
-  font-size: ${RFValue(10)}px;
-  color: ${({ theme }) => theme.colors.gray_500};
-`;
-
 export const SecondaryDescription = styled.Text`
   margin-top: ${Platform.OS === 'ios' ? RFValue(8) : RFValue(2)}px;
   font-family: ${({ theme }) => theme.fonts.regular};

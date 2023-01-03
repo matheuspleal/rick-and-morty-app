@@ -13,7 +13,7 @@ interface IconProps {
 
 interface InputProps extends TextInputProps {
   isFocused: boolean
- }
+}
 
 export const Container = styled.View<ContainerProps>`
   flex-direction: row;

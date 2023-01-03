@@ -8,7 +8,7 @@ export interface Info {
 export interface Results {
   id: number,
   name: string,
-  status: string,
+  status: 'Alive' | 'Dead' | 'unknown',
   species: string,
   type?: string,
   gender?: string,
