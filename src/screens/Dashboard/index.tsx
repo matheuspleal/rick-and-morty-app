@@ -18,7 +18,8 @@ import {
   CharacterList,
   InfoText,
   BoldText,
-  IllustrationSvg
+  IllustrationSvg,
+  ItemSeparator
 } from './styles'
 
 export function Dashboard() {
@@ -118,7 +119,12 @@ export function Dashboard() {
   return (
     <Container>
       <HeaderContainer>
-        <IllustrationSvg/>
+        <IllustrationSvg
+          height="220"
+          preserveAspectRatio="xMinYMin slice" 
+          width="222" 
+          viewBox="0 0 222 220"
+        />
         <HeaderTitle title={`The Rick\nand Morty\nApp`} />
       </HeaderContainer>
       <ContentContainer>
@@ -137,6 +143,7 @@ export function Dashboard() {
           renderItem={characterListItem}
           onEndReachedThreshold={0.2}
           onEndReached={handleFetchMoreData}
+          ItemSeparatorComponent={ItemSeparator}
         />
         <InfoText
           onPress={handleOpenApiLink}

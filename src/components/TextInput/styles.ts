@@ -22,7 +22,7 @@ export const Container = styled.View<ContainerProps>`
   padding: ${RFValue(10)}px ${RFValue(12)}px;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.dark_500};
-  border: 1px solid ${({ theme, isFocused }) => 
+  border: 2px solid ${({ theme, isFocused }) => 
     isFocused ? theme.colors.gray_500: theme.colors.dark_500
   };
 `;
@@ -38,6 +38,7 @@ export const Icon = styled(Feather)<IconProps>`
 export const Input = styled.TextInput.attrs<InputProps>({
   placeholderTextColor: '#6D6E71'
 })<InputProps>`
+  width: 100%;
   font-family: ${({ theme }) => theme.fonts.medium};
   font-size: ${RFValue(20)}px;
   height: ${RFValue(24)}px;

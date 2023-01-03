@@ -1,15 +1,14 @@
 import styled from 'styled-components/native'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { Platform } from 'react-native';
 
 export const Container = styled.View`
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
   height: ${RFValue(100)}px;
   max-width: 100%;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.dark_500};
-  margin-bottom: ${RFValue(12)}px;
 `;
 
 export const Image = styled.Image`
@@ -42,7 +41,7 @@ export const PrimaryInfo = styled.Text`
 `;
 
 export const SecondaryDescription = styled.Text`
-  margin-top: ${RFValue(7)}px;
+  margin-top: ${Platform.OS === 'ios' ? RFValue(8) : RFValue(2)}px;
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(10)}px;
   color: ${({ theme }) => theme.colors.gray_900};
