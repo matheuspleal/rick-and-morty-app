@@ -135,6 +135,7 @@ export function Dashboard() {
           onChangeText={handleSearchCharacterByName}
           onFocus={() => setInputIsFocused(true)}
           onBlur={() => setInputIsFocused(false)}
+          returnKeyType={'search'}
           isFocused={inputIsFocused}
         />
         <CharacterList
